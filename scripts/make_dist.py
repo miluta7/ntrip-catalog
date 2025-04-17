@@ -39,7 +39,7 @@ def read_json(input, log_input_files):
                         raise Exception(
                             f"Unexpected content type in json file ${file_path}"
                         )
-            elif log_input_files:
+            elif log_input_files and filename != "release.txt":
                 logger.warning(f"file {file_path} is not JSON")
 
     entries.sort(key=lambda x: x["name"] + "  " + "".join(x["urls"]))
@@ -50,7 +50,19 @@ def read_json(input, log_input_files):
         " Update the 'data' folder if any change is needed."
     )
 
-    final = {"$schema": schema, "release": 0, "comment": comment, "entries": entries}
+    lines = (pathlib.Path(walk_dir) / "release.txt").read_text().split("\n")
+    for line in lines:
+        line = line.strip()
+        if line and line[0] != "#":
+            release = int(line)
+            break
+
+    final = {
+        "$schema": schema,
+        "release": release,
+        "comment": comment,
+        "entries": entries,
+    }
     return final
 
 
