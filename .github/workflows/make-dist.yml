@@ -1,0 +1,14 @@
+name: Build and Commit Dist
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  call-shared:
+    uses: ./.github/workflows/ci-common.yml
+    with:
+      commit_dist: true
+
+permissions:
+  contents: write

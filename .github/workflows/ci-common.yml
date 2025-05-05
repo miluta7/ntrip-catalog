@@ -1,0 +1,73 @@
+name: Shared CI Steps
+
+on:
+  workflow_call:
+    inputs:
+      commit_dist:
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.12]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip and pre-commit
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pre-commit
+          key: ${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt', '.pre-commit-config.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-py${{ matrix.python-version }}-
+
+      - name: Install dependencies
+        env:
+          PIP_NO_CACHE_DIR: "false"
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements.test.txt
+
+      # Install pre-commit hooks so they get cached
+      - name: Pre-warm pre-commit environments
+        run: |
+          if [ -f .pre-commit-config.yaml ]; then
+            pre-commit run --all-files --hook-stage manual || true
+          fi
+
+      - name: Build dist
+        run: python scripts/make_dist.py
+
+      - name: Validate dist
+        run: python scripts/validator.py
+
+      - name: Run tests
+        run: tests/run_tests.sh
+
+      - name: Commit and push dist if requested
+        if: ${{ inputs.commit_dist }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/ntrip-catalog.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update ntrip-catalog.json"
+            git push origin master
+          else
+            echo "No changes to commit"
+          fi
