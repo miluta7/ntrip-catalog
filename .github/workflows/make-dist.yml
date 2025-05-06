@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  call-shared:
+  call-ci-common:
     uses: ./.github/workflows/ci-common.yml
     with:
       commit_dist: true
