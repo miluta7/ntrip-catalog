@@ -132,7 +132,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--schema-version",
         help="Version of the schema",
-        default="v0.1",
+        default="v0.2",
     )
     parser.add_argument("--single-file", help="Validate a single file")  # TB done
 
