@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NTRIP-catalog -- Search</title>
+    <meta name="keywords" content="ntrip, catalog, rtk, coordinate system, srs, crs">
+    <meta name="description" content="NTRIP-catalog -- web search utility">
+    <link rel="stylesheet" href="./search.css">
+</head>
+
+<body>
+   <div class="header-container">
+        <h1>NTRIP Catalog Search</h1>
+        <hr class="separator">
+        <p class="description">A web utility to query and view NTRIP catalog entries and sourcetable details. Ideal for engineers and developers working with GNSS and RTK data.</p>
+
+    </div>
+
+   <div class="section-container">
+        <h2>Search</h2>
+        <form action="./search.html" id="main_form">
+            <div class="form-group">
+                <label for="url">Hostname or IP</label>:
+                <input type="text" name="url" id="url" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="port">Port</label> :
+                <input type="number" min="1" max="65565" name="port" id="port" placeholder="2101" value="" required>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" class="hidden" name="proxy" id="proxy">
+                <label for="https">https</label> :
+                <input type="checkbox" name="https" id="https">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search">
+            </div>
+        </form>
+
+        <div id="url-ok" class="hidden ok">&#x2705; There is an entry in the catalog for that url and port.
+
+        </div>
+        <div id="url-not-ok" class="hidden not-ok">&#x274C; There is no entry in the catalog for that url and port.
+            If you know the data you can open an
+            <a href="https://github.com/Pix4D/ntrip-catalog/issues" target="_blank">issue</a>
+        </div>
+    </div>
+
+    <div class="section-container">
+        <h2>Filters</h2>
+        <form action="javascript:;" onsubmit="submit_details(this);" id="details_form">
+            <div class="form-group">
+                <label for="mountpoint">Mountpoint</label>
+                <input type="text" name="mountpoint" id="mountpoint" value="" required>
+                <select name="mp_select" id="mp_select" disabled>
+                    <option value="-invalid-" selected>.or select here.</option>
+                </select>
+            </div>
+            <div class="form-group form-group-singleline">
+                <label for="country">Country</label>
+                <input type="text" name="country" id="country" pattern="^$|^[a-zA-Z]{3}$" maxlength="3" size="4" value=""
+                    title="3 letter country code" style="text-transform:uppercase">
+                <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3" target="_blank">(3 letter code)</a>
+            </div>
+            <div class="form-group">
+                Location
+                <label for="latitude">lat</label>
+                <input type="number" step="0.0000000001" name="latitude" id="latitude" value="">
+                <label for="longitude">lon</label>
+                <input type="number" step="0.0000000001" name="longitude" id="longitude" value="">
+                <input type="submit" value="Filter">
+            </div>
+        </form>
+    </div>
+
+    <div class="section-container">
+        <h2>CRS</h2>
+        <div id="crs-ok" class="hidden ok">&#x2705; There is a CRS in the catalog for that configuration.
+        </div>
+        <div id="crs-not-ok" class="hidden not-ok">&#x274C; There is no CRS in the catalog for configuration.
+             Check your inputs.
+             If all is correct and you know the data you can open an
+            <a href="https://github.com/Pix4D/ntrip-catalog/issues" target="_blank">issue</a>
+        </div>
+
+        <div class="catalog-details">
+            <span class="info-label">Name:</span> <span id="crs_name" class="info-value"></span>
+        </div>
+        <div class="catalog-details">
+            <span class="info-label">ID:</span> <span id="crs_id" class="info-value"></span>
+        </div>
+        <div class="catalog-details">
+            <span class="info-label">Description:</span> <span id="crs_description" class="info-value"></span>
+        </div>
+    </div>
+
+    <hr class="hr-style" />
+    <br><h2 class="extra-data">Extra data:</h2><br>
+
+
+    <div class="section-container extra">
+        <h2>Entry</h2>
+        <div class="catalog-details">
+            <span class="info-label">Name:</span> <span id="entry_name" class="info-value"></span>
+        </div>
+        <div class="catalog-details">
+            <span class="info-label">Description:</span> <span id="entry_description" class="info-value"></span>
+        </div>
+        <div class="catalog-details">
+            <span class="info-label">Reference:</span> <span id="entry_ref" class="info-value"></span>
+        </div>
+        <label for="entry_content">Raw data</label>:
+        <textarea class="code-container" id="entry_content" name="entry_content" title="Entry json content" rows="2" cols="50" readonly></textarea>
+    </div>
+
+    <div class="section-container extra">
+        <h2>Sourcetable</h2>
+        <textarea class="code-container" id="sourcetable_content" name="sourcetable_content" title="Sourcetable content" rows="2" cols="50" readonly></textarea>
+    </div>
+
+    <div class="section-container extra">
+        <h2>CRS Content</h2>
+        <textarea class="code-container" id="crs_content" name="crs_content" title="CRS json content" rows="2" cols="50" readonly></textarea>
+    </div>
+
+    <script src="./search.js"></script>
+    <script>
+        init_search()
+    </script>
+</body>
+</html>
