@@ -35,7 +35,7 @@
                 },
                 "crss": [
                     {
-                        "id": "EPSG:7931"",
+                        "id": "EPSG:7931",
                         "name": "ETRF2000",
 					            	"epoch": 2000.0,
                         "description": "Romania"
@@ -51,12 +51,12 @@
                 },
                 "crss": [
                     {
-                        "id": "EPSG:3844"",
+                        "id": "EPSG:3844",
                         "name": "Stereographic 1970",
                         "description": "Romania"
                     },
 					{
-                        "id": "EPSG:5735"",
+                        "id": "EPSG:5735",
                         "name": "Black Sea 1975(Edition 1990)",
                         "description": "Romania"
                     }
@@ -268,7 +268,7 @@
                 },
                 "crss": [
                      {
-                        "id": "EPSG:7931"",
+                        "id": "EPSG:7931",
                         "name": "ETRF2000",
 					            	"epoch": 2000.0,
                         "description": "Romania"
