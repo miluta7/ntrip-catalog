@@ -4,12 +4,11 @@
         "description": "ROMPOS Services",
         "urls": [
             "http://rtk.rompos.ro:2101",
-			"http://rtk.rompos.ro:2102",
-			"http://rtk.rompos.ro:2105",
+            "http://rtk.rompos.ro:2102",
+            "http://rtk.rompos.ro:2105",
             "http://93.113.10.123:2101",
-			"http://93.113.10.123:2102",
-			"http://93.113.10.123:2105"
-         
+            "http://93.113.10.123:2102",
+            "http://93.113.10.123:2105"
         ],
         "reference": {
             "url": "https://rompos.ro/index.php/en/f-a-q"
@@ -22,37 +21,11 @@
                     {
                         "id": "EPSG:7931",
                         "name": "ETRF2000",
-						"epoch": 2000.0,
+                        "epoch": 2000.0,
                         "description": "Romania"
                     }
                 ],
-                "comments": "Mountpoints on 2101"
-            },
-            {
-                "filter": {
-                    "mountpoints": "all",
-                "crss": [
-                    {
-                        "id": "EPSG:7931",
-                        "name": "ETRF2000",
-						"epoch": 2000.0,
-                        "description": "Romania"
-                    }
-                ],
-                "comments": "Mountpoints on 2102 with direct coordinate transformation to National System/Height"
-            },
-            {
-                "filter": {
-				"mountpoints": "all",
-                "crss": [
-                     {
-                        "id": "EPSG:7931",
-                        "name": "ETRF2000",
-						"epoch": 2000.0,
-                        "description": "Romania"
-                    }
-                ],
-                "comments": "Single station mountpoints on 2105"
+                "comments": "Mountpoints on 2101, 2102 and singles stations on 2105"
             }
         ]
     }
